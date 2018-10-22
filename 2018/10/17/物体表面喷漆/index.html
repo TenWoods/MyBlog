@@ -100,7 +100,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2018-10-17</span>
-            <span class="time">08:24:04</span>
+            <span class="time">08:52:02</span>
           </span>
           
         </div>
@@ -117,6 +117,18 @@
         <!-- Post Main Content -->
         <div class="post-content">
           <p>一个在物体表面绘制的简单思路<br><a id="more"></a></p>
+<p>##主体思路<br>在物体表面上创建一层墨水Texture，所有的墨水图案都绘制在这张Texture上，在shader中同时对物体的原纹理和墨水层纹理进行采样达到喷漆效果。</p>
+<p>##解决两个问题</p>
+<ul>
+<li>如何知道在哪个位置进行绘制  </li>
+<li>如何进行绘制</li>
+</ul>
+<p>首先，关于获取位置，我是用的是Unity中Raycasthit类里的texcooord。当射线击中物体表面时，Raycasthit.texcoord中就会记录击中点在物体上的纹理坐标，通过这个纹理坐标就可以知道应该在墨水层的哪一个位置进行绘制。<br>然后，关于绘制，我分为两种:</p>
+<ul>
+<li>一种是像守望先锋那样的绘制图案<br>这样的话是需要将图案原封不动地画上去，我使用Texture里的SetPixel()这个方法，以上一步获取的点坐标为基础，遍历绘制图案的每个像素，把它绘制到墨水层上。</li>
+<li>另一种是像Splatoon那样绘制不同颜色的墨水图案<br>这种情况就不需要获取原来图案的具体颜色，只需要把原图案的a通道获取到，绘制出形状，然后根据需要设置rgb值。</li>
+</ul>
+<p><strong>具体实现可以看我github中的Spltoon项目</strong></p>
 
         </div>
       </div>
