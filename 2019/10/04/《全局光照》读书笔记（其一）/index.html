@@ -100,15 +100,72 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2019-10-04</span>
-            <span class="time">17:32:38</span>
+            <span class="time">21:22:08</span>
           </span>
           
         </div>
         <!-- Tags -->
         
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/图形学/">#图形学</a>
+
+
+          </div>
+        
         <!-- Post Main Content -->
         <div class="post-content">
-          
+          <h1 id="全局光照基础概念"><a href="#全局光照基础概念" class="headerlink" title="全局光照基础概念"></a>全局光照基础概念</h1><h2 id="全局光照"><a href="#全局光照" class="headerlink" title="全局光照"></a>全局光照</h2><p>全局光照=局部光照+间接光照</p>
+<p>局部光照：不考虑环境其他非光源表面对着色影响的光照模型</p>
+<p>间接光照：间接漫反射是最重要的全局光照效果，主要处理方式为光照贴图(light map)和在空白空间对环境关照进行稀疏采样。</p>
+<h2 id="焦散与散射"><a href="#焦散与散射" class="headerlink" title="焦散与散射"></a>焦散与散射</h2><p>焦散：光通过光泽面的反射或折射后，多束光落在同一个漫反射表面点上。</p>
+<p>散射：由于许多物体是半透明的，导致光从物体表面进入后部分被吸收(absorbed)部分发生散射(scattered)从物体表面发射出去，出射点可能与入射点位置不一样。次表面散射(subsurface scattering)表示由于物体内部存在介质的不连续性，导致折射进物体内部的光在经历多次散射后重新从另一个位置反射回空中。</p>
+<h2 id="辐射度量学-重点"><a href="#辐射度量学-重点" class="headerlink" title="辐射度量学(重点)"></a>辐射度量学(重点)</h2><table>
+<thead>
+<tr>
+<th>中文名称</th>
+<th>英文名称</th>
+<th>单位</th>
+<th>符号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>辐射能量</td>
+<td>radiant energy</td>
+<td>J</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>辐射通量</td>
+<td>radiant flux</td>
+<td>W</td>
+<td>$ \Phi $</td>
+</tr>
+<tr>
+<td>辐射照度</td>
+<td>irradiance</td>
+<td>W / $ m^2 $</td>
+<td>E</td>
+</tr>
+<tr>
+<td>辐射强度</td>
+<td>radiant intensity</td>
+<td>W / sr</td>
+<td>I</td>
+</tr>
+<tr>
+<td>辐射亮度</td>
+<td>radiance</td>
+<td>W / ($ m ^2 $ · sr)</td>
+<td>L</td>
+</tr>
+</tbody>
+</table>
+<h3 id="辐射能量"><a href="#辐射能量" class="headerlink" title="辐射能量"></a>辐射能量</h3><p>每个光子都带有能量，这个能量正比于它的频率v：<br>$$<br>Q = hv<br>$$<br>其中，$ h = 6.62620 \times 10^{-34} J·s$</p>
+<h3 id="辐射通量"><a href="#辐射通量" class="headerlink" title="辐射通量"></a>辐射通量</h3><p>表示光源每秒钟发射的功率( $dQ / dt$ )，单位为瓦特(W)。</p>
+<h3 id="辐射亮度"><a href="#辐射亮度" class="headerlink" title="辐射亮度"></a>辐射亮度</h3>
         </div>
       </div>
     </div>
