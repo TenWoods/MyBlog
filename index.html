@@ -247,89 +247,15 @@
 
       
           <h1 id="全局光照基础概念"><a href="#全局光照基础概念" class="headerlink" title="全局光照基础概念"></a>全局光照基础概念</h1><h2 id="全局光照"><a href="#全局光照" class="headerlink" title="全局光照"></a>全局光照</h2><p>全局光照=局部光照+间接光照</p>
-<p>局部光照：不考虑环境其他非光源表面对着色影响的光照模型</p>
-<p>间接光照：间接漫反射是最重要的全局光照效果，主要处理方式为光照贴图(light map)和在空白空间对环境关照进行稀疏采样。</p>
-<h2 id="焦散与散射"><a href="#焦散与散射" class="headerlink" title="焦散与散射"></a>焦散与散射</h2><p>焦散：光通过光泽面的反射或折射后，多束光落在同一个漫反射表面点上。</p>
-<p>散射：由于许多物体是半透明的，导致光从物体表面进入后部分被吸收(absorbed)部分发生散射(scattered)从物体表面发射出去，出射点可能与入射点位置不一样。次表面散射(subsurface scattering)表示由于物体内部存在介质的不连续性，导致折射进物体内部的光在经历多次散射后重新从另一个位置反射回空中。</p>
-<h2 id="辐射度量学-重点"><a href="#辐射度量学-重点" class="headerlink" title="辐射度量学(重点)"></a>辐射度量学(重点)</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>中文名称</th>
-<th>英文名称</th>
-<th>单位</th>
-<th>符号</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>辐射能量</td>
-<td>radiant energy</td>
-<td>J</td>
-<td>Q</td>
-</tr>
-<tr>
-<td>辐射通量</td>
-<td>radiant flux</td>
-<td>W</td>
-<td>$ \Phi $</td>
-</tr>
-<tr>
-<td>辐射照度</td>
-<td>irradiance</td>
-<td>W / $ m^2 $</td>
-<td>E</td>
-</tr>
-<tr>
-<td>辐射强度</td>
-<td>radiant intensity</td>
-<td>W / sr</td>
-<td>I</td>
-</tr>
-<tr>
-<td>辐射亮度</td>
-<td>radiance</td>
-<td>W / ($ m ^2 $ · sr)</td>
-<td>L</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="立体角"><a href="#立体角" class="headerlink" title="立体角"></a>立体角</h3><p>立体角的数学符号为$\Omega$，单位为$sr$，它是steradians的缩写。2D中以圆弧的长度表示对应角度，3D中则以单位球上一块区域面积的大小来表示对应的立体角。</p>
-<p>在球面坐标系中，单位球上任意一块区域A面积可以表示为：</p>
-<script type="math/tex; mode=display">
-\Omega = \int\int_A sin\theta d\theta d\phi</script><p>$\theta$表示经度，$\phi$表示纬度。</p>
-<h3 id="辐射能量"><a href="#辐射能量" class="headerlink" title="辐射能量"></a>辐射能量</h3><p>每个光子都带有能量，这个能量正比于它的频率v：</p>
-<script type="math/tex; mode=display">
-Q = hv</script><p>其中，$ h = 6.62620 \times 10^{-34} J·s$</p>
-<h3 id="辐射通量"><a href="#辐射通量" class="headerlink" title="辐射通量"></a>辐射通量</h3><p>表示光源每秒钟发射的功率( $dQ / dt$ )，单位为瓦特(W)。</p>
-<h3 id="辐射亮度"><a href="#辐射亮度" class="headerlink" title="辐射亮度"></a>辐射亮度</h3><p>在辐射度量学中通常考虑的是从面A的一部分射出的光能量。</p>
-<p>设$P(\xi, \eta)$ 是A面上的一点，现在P处取一面元$dA$，并围绕极角$(\alpha, \beta)$方向取一立体角$dw$，另外设$dw$方向与$dA$法线的夹角为$\theta$，则单位时间由片元$dA$发射到$dw$内的能量值$d\Phi$可以表示为：</p>
-<script type="math/tex; mode=display">
-d\Phi = L\bar{cos}\theta dAdw</script><p>其中L是一个因子，一般与位置$(\xi, \eta)$和方向$(\alpha, \beta)$有关：</p>
-<script type="math/tex; mode=display">
-L = L(\xi, \eta ; \alpha, \beta)</script><p><strong>L称作点</strong>$(\xi, \eta)$<strong>处方向</strong>$(\alpha, \beta)$<strong>上的的辐射亮度(radiance)，单位为</strong>$W/(m^2 · sr)$。</p>
-<h3 id="辐射强度"><a href="#辐射强度" class="headerlink" title="辐射强度"></a>辐射强度</h3><script type="math/tex; mode=display">
-dI = d\Phi / dw = L\bar{cos}\theta dA</script><p>对一个面A的区域求积分得：</p>
-<script type="math/tex; mode=display">
-I(\alpha, \beta) = \int L\bar{cos}dA</script><p>$I$称为面积A在方向$(\alpha, \beta)$上的辐射强度(radiant intensity)，其单位为W/$sr$。</p>
-<p>当L与方向无关时，辐射是各向同性(isotropic)。如果辐射是各项同性并且辐射面是平面，则方程可简化为：</p>
-<script type="math/tex; mode=display">
-I(\alpha, \beta) = I_0\bar{cos}\theta</script><p>其中，</p>
-<script type="math/tex; mode=display">
-I_0 = \int LdA</script><p>这时，任何方向上的辐射强度随该方向与面法向量间夹角的余弦的变化而变化。</p>
-<h3 id="辐射照度"><a href="#辐射照度" class="headerlink" title="辐射照度"></a>辐射照度</h3><script type="math/tex; mode=display">
-dE = d\Phi / dA = L\bar{cos}\theta dw</script><p>对某一立体角积分得：</p>
-<script type="math/tex; mode=display">
-E(\xi, \eta) = \int L\bar{cos}\theta dw</script><p>E称为点$(\xi, \eta)$的辐射照度(irradiance)，其单位为W/$m^2$，它是点$(\xi, \eta)$沿各个方向对辐射亮度L的积分。</p>
-<p>由于辐射照度表示一个点接收来自各个方向的辐射亮度，所以在图形学中，它被用来表述表面的一个点接收的所有光照。</p>
-<p>辐射照度页可以表示光离开一个表面的强度，称为出射度。通常用辐射通量密度(radiant flux density)来统称一个表面的出射或入射强度。</p>
-<p>对于点光源：</p>
-<p>设dA是点P处的面元，Q为点光源位置。QP = r，又设$\theta$为QP与dA的法线夹角，则光源在单位时间内射过dA的能量是$Idw$其中$I$是光源沿QP方向的辐射强度，dw是对Q所张的立体角：</p>
-<script type="math/tex; mode=display">
-cos\theta dA = r^2dw</script><p>因此：</p>
-<script type="math/tex; mode=display">
-E = d\Phi / dA = Idw / dA = \frac{\frac{Icos\theta dA}{r^2}}{dA} = \frac{Icos\theta}{r^2}</script>
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/10/04/《全局光照》读书笔记（其一）/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -408,43 +334,15 @@ E = d\Phi / dA = Idw / dA = \frac{\frac{Icos\theta dA}{r^2}}{dA} = \frac{Icos\th
 
       
           <h1 id="光线追踪简单实现"><a href="#光线追踪简单实现" class="headerlink" title="光线追踪简单实现"></a>光线追踪简单实现</h1><p>根据《Ray Tracing in a Weekend》这本书做的。</p>
-<h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>.ppm的图片格式，用VS的话可以直接进项目属性页-&gt;调试中把到控制台的输出重定向到文件中。</p>
-<p><img src="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Ray-tracing/1.png" alt=""></p>
-<p>ppm格式示例：</p>
-<blockquote>
-<p>P3</p>
-<p>3 2</p>
-<p>255</p>
-<p>255     0    0          0 255      0         0    0 255</p>
-<p>255 255    0      255 255 255         0    0     0</p>
-</blockquote>
-<p>ppm格式的起始两个字节为P3或者P6，第二行为图像大小，第三行描述像素的最大颜色组成，最后为图像数据。</p>
-<h3 id="向量类"><a href="#向量类" class="headerlink" title="向量类"></a>向量类</h3><p>这个类没啥好说的，实现基础的向量运算就行。实在嫌麻烦可以直接用glm里的vec3。</p>
-<h3 id="射线类"><a href="#射线类" class="headerlink" title="射线类"></a>射线类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class ray</span><br><span class="line">&#123;</span><br><span class="line">private:</span><br><span class="line">	vec3 A;</span><br><span class="line">	vec3 B;</span><br><span class="line">public :</span><br><span class="line">	ray() &#123;&#125;</span><br><span class="line">	ray(vec3 origin, vec3 direction) : A(origin), B(direction)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	vec3 origin() const</span><br><span class="line">	&#123;</span><br><span class="line">		return A;</span><br><span class="line">	&#125;</span><br><span class="line">	vec3 direction() const</span><br><span class="line">	&#123;</span><br><span class="line">		return B;</span><br><span class="line">	&#125;</span><br><span class="line">	vec3 point_at_parameter(float t) const</span><br><span class="line">	&#123;</span><br><span class="line">		return A + t * B;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>射线由起点和方向组成，并需要一个方法—能根据输入参数t返回一个射线路径上的点。</p>
-<h3 id="光线撞击判定"><a href="#光线撞击判定" class="headerlink" title="光线撞击判定"></a>光线撞击判定</h3><p>这个程序只进行球类的判定。设球心坐标为(xc, yc, zc)，则点是否在球上的判定式为(x - xc)^2 + (y - yc)^2 + (z - zc)^2 = R^2</p>
-<p>转换为向量形式：dot((<strong>A</strong> + t <em> <strong>B</strong> - <strong>C</strong>), (<strong>A</strong> + t </em> <strong>B</strong> - <strong>C</strong>)) = R * R</p>
-<p>=&gt; t <em> t </em> dot(<strong>B</strong>, <strong>B</strong>) + 2 <em> t </em> dot(<strong>B</strong>, <strong>A - C</strong>) + dot(<strong>A - C</strong>, <strong>A - C</strong>) - R * R = 0</p>
-<p>A为射线起点，B为射线方向，C为球心。</p>
-<p>所求的为关于t的一元二次方程，根据delta不同有三种根结构。</p>
-<p>同时，需要记录碰撞点的信息：一个根t， 碰撞点p，碰撞点处的法线normal，材质信息material。</p>
-<p>最终把其抽象为hitable的抽象类，继承他的类必须实现hit方法。</p>
-<p>下为球的hit方法实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">struct hit_record</span><br><span class="line">&#123;</span><br><span class="line">	float t;</span><br><span class="line">	vec3 p;</span><br><span class="line">	vec3 normal;</span><br><span class="line">	material* material_ptr;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">bool hit(const ray&amp; r, float t_min, float t_max, hit_record&amp; rec) const</span><br><span class="line">	&#123;</span><br><span class="line">		vec3 oc = r.origin() - center;</span><br><span class="line">		float a = dot(r.direction(), r.direction());</span><br><span class="line">		float b = 2.0f * dot(r.direction(), oc);</span><br><span class="line">		float c = dot(oc, oc) - radius * radius;</span><br><span class="line">		float delta = b * b - 4 * a * c;</span><br><span class="line">		if (delta &lt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">		else</span><br><span class="line">		&#123;</span><br><span class="line">			float x = (-b - sqrt(delta)) / (2 * a);</span><br><span class="line">			if (x &lt; t_max &amp;&amp; x &gt; t_min)</span><br><span class="line">			&#123;</span><br><span class="line">				rec.t = x;</span><br><span class="line">				rec.p = r.point_at_parameter(x);</span><br><span class="line">				rec.normal = (rec.p - center) / radius;</span><br><span class="line">				rec.material_ptr = m;</span><br><span class="line">				return true;</span><br><span class="line">			&#125;</span><br><span class="line">			x = (-b + sqrt(delta)) / (2 * a);</span><br><span class="line">			if (x &lt; t_max &amp;&amp; x &gt; t_min)</span><br><span class="line">			&#123;</span><br><span class="line">				rec.t = x;</span><br><span class="line">				rec.p = r.point_at_parameter(x);</span><br><span class="line">				rec.normal = (rec.p - center) / radius;</span><br><span class="line">				rec.material_ptr = m;</span><br><span class="line">				return true;</span><br><span class="line">			&#125;</span><br><span class="line">			return false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-<p>光线追踪时，一条光线需要获取到整个场景的信息，所以创建一个hitable_list的类继承hitable来管理场景内所有可以碰撞的球。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class hitable_list : public hitable</span><br><span class="line">&#123;</span><br><span class="line">private :</span><br><span class="line">	hitable** list;</span><br><span class="line">	int list_size;</span><br><span class="line">public :</span><br><span class="line">	hitable_list() &#123;&#125;</span><br><span class="line">	hitable_list(hitable** l, int size)</span><br><span class="line">	&#123;</span><br><span class="line">		list = l;</span><br><span class="line">		list_size = size;</span><br><span class="line">	&#125;</span><br><span class="line">	virtual bool hit(const ray&amp; r, float t_min, float t_max, hit_record&amp; rec) const</span><br><span class="line">	&#123;</span><br><span class="line">		hit_record temp;</span><br><span class="line">		bool hit_result = false;</span><br><span class="line">		double closest_so_far = t_max;</span><br><span class="line">		for (int i = 0; i &lt; list_size; i++)</span><br><span class="line">		&#123;</span><br><span class="line">			if (list[i]-&gt;hit(r, t_min, closest_so_far, temp))</span><br><span class="line">			&#123;</span><br><span class="line">				hit_result = true;</span><br><span class="line">				closest_so_far = temp.t;</span><br><span class="line">				rec = temp;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return hit_result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="相机类"><a href="#相机类" class="headerlink" title="相机类"></a>相机类</h3><p>为了输出图像，创建一个相机类来观察场景</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">class camera</span><br><span class="line">&#123;</span><br><span class="line">private :</span><br><span class="line">	vec3 origin;</span><br><span class="line">	vec3 lower_left;</span><br><span class="line">	vec3 horizontal;</span><br><span class="line">	vec3 vertical;</span><br><span class="line">	float lens_radius;</span><br><span class="line">	vec3 u, w, v;</span><br><span class="line">public : </span><br><span class="line">	camera(vec3 lookfrom, vec3 lookat, vec3 vUp, float fov, float aspect, float aperture, float focus_distance)</span><br><span class="line">	&#123;</span><br><span class="line">		lens_radius = aperture / 2.0f;</span><br><span class="line">		float theta = fov * PI / 180;</span><br><span class="line">		float half_height = tan(theta / 2);</span><br><span class="line">		float half_width = aspect * half_height;</span><br><span class="line">		w = normalized_vector(lookfrom - lookat);</span><br><span class="line">		u = normalized_vector(cross(vUp, w));</span><br><span class="line">		v = cross(w, u);</span><br><span class="line">		origin = lookfrom;</span><br><span class="line">		lower_left = origin - focus_distance * half_width * u - focus_distance * half_height * v - focus_distance * w;</span><br><span class="line">		horizontal = 2 * focus_distance * half_width * u;</span><br><span class="line">		vertical = 2 * focus_distance * half_height * v;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	ray get_ray(float s, float t)</span><br><span class="line">	&#123;</span><br><span class="line">		vec3 rd = lens_radius * random_disk_point();</span><br><span class="line">		vec3 offset = u * rd.x() + v * rd.y();</span><br><span class="line">		return ray(origin + offset, lower_left + s * horizontal + t * vertical - origin - offset);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	vec3 random_disk_point() const</span><br><span class="line">	&#123;</span><br><span class="line">		vec3 p;</span><br><span class="line">		do </span><br><span class="line">		&#123;</span><br><span class="line">			p = 2.0f * vec3(random_double(), random_double(), 0.0f) - vec3(1.0f, 1.0f, 0.0f);</span><br><span class="line">		&#125; while (dot(p, p) &gt;= 1.0);</span><br><span class="line">		return p;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="材质"><a href="#材质" class="headerlink" title="材质"></a>材质</h3><h4 id="漫反射"><a href="#漫反射" class="headerlink" title="漫反射"></a>漫反射</h4><p>当射线与表面撞击后会进行随机发散出一条射线，发散方向由一个单位球的随机点生成。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">virtual bool scatter(const ray&amp; ray_in, hit_record&amp; rec, vec3&amp; attenuation, ray&amp; scattered) const</span><br><span class="line">&#123;</span><br><span class="line">		vec3 next_direction = rec.p + rec.normal + random_sphere_point();</span><br><span class="line">		scattered = ray(rec.p, next_direction - rec.p);</span><br><span class="line">		attenuation = albedo;</span><br><span class="line">		return true;</span><br><span class="line">&#125;</span><br><span class="line">	</span><br><span class="line">vec3 random_sphere_point() const</span><br><span class="line">&#123;</span><br><span class="line">	vec3 p;</span><br><span class="line">	do</span><br><span class="line">	&#123;</span><br><span class="line">		p = 2.0f * vec3(random_double(), random_double(), random_double()) - 				vec3(1.0f, 1.0f, 1.0f);</span><br><span class="line">	&#125; while (p.squared_length() &gt;= 1.0f);</span><br><span class="line">	return p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="金属"><a href="#金属" class="headerlink" title="金属"></a>金属</h4><p>金属材质就为纯反射材质，根据碰撞点法线方向计算射线反射方向，再根据表面光滑度加上随机方向。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vec3 reflect(vec3 in, vec3 normal) const</span><br><span class="line">&#123;</span><br><span class="line">	vec3 result = in + 2 * dot(-in, normal) * normal;</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">virtual bool scatter(const ray&amp; ray_in, hit_record&amp; rec, vec3&amp; attenuation, ray&amp; scattered) const</span><br><span class="line">&#123;</span><br><span class="line">	vec3 next_direction = reflect(normalized_vector(ray_in.direction()), rec.normal);</span><br><span class="line">	scattered = ray(rec.p, next_direction + fuzz * random_sphere_point());</span><br><span class="line">	attenuation = albedo;</span><br><span class="line">	return (dot(scattered.direction(), rec.normal) &gt; 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="玻璃"><a href="#玻璃" class="headerlink" title="玻璃"></a>玻璃</h4><p>斯涅尔定律：<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/b6b2a5ea2d5d1fdf92e3b13e58bd3f91a48236ff" alt="n_{1}\sin \theta _{1}=n_{2}\sin \theta _{2}"></p>
-<p>n1,n2为两种介质折射率；θ1,θ2为入射光与折射光与法线夹角。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">bool refract(const vec3&amp; in, const vec3&amp; normal, float ni_over_no, vec3&amp; refracted) const</span><br><span class="line">&#123;</span><br><span class="line">	vec3 nin = normalized_vector(in);</span><br><span class="line">	float dt = dot(nin, normal);</span><br><span class="line">	float discriminant = 1.0f - ni_over_no * ni_over_no * (1.0f - dt * dt);</span><br><span class="line">	if (discriminant &gt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		refracted = ni_over_no * (nin - normal * dt) - normal * sqrt(discriminant);</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">virtual bool scatter(const ray&amp; ray_in, hit_record&amp; rec, vec3&amp; attenuation, ray&amp; scattered) const</span><br><span class="line">&#123;</span><br><span class="line">	vec3 outward_normal;</span><br><span class="line">	float ni_over_no;</span><br><span class="line">	float cosine;</span><br><span class="line">	float reflect_prob;</span><br><span class="line">	vec3 reflected = reflect(ray_in.direction(), rec.normal);</span><br><span class="line">	attenuation = vec3(1.0f, 1.0f, 1.0f);</span><br><span class="line">	vec3 refracted;</span><br><span class="line">	if (dot(ray_in.direction(), rec.normal) &gt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		outward_normal = -rec.normal;</span><br><span class="line">		ni_over_no = ref_idx;</span><br><span class="line">		cosine = dot(ray_in.direction(), rec.normal) / ray_in.direction().length();</span><br><span class="line">		cosine = sqrt(1 - ref_idx * ref_idx * (1 - cosine * cosine));</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		outward_normal = rec.normal;</span><br><span class="line">		ni_over_no = 1.0f / ref_idx;</span><br><span class="line">		cosine = -dot(ray_in.direction(), rec.normal) / ray_in.direction().length();</span><br><span class="line">	&#125;</span><br><span class="line">	if (refract(ray_in.direction(), outward_normal, ni_over_no, refracted))</span><br><span class="line">	&#123;</span><br><span class="line">		reflect_prob = schlick(cosine, ref_idx);</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		reflect_prob = 1.0f;</span><br><span class="line">	&#125;</span><br><span class="line">	if (random_double() &lt; reflect_prob)</span><br><span class="line">	&#123;</span><br><span class="line">		scattered = ray(rec.p, reflected);</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		scattered = ray(rec.p, refracted);</span><br><span class="line">	&#125;</span><br><span class="line">	return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">float schlick(float cosine, float ref_idx) const</span><br><span class="line">&#123;</span><br><span class="line">	float r0 = (1 - ref_idx) / (1 + ref_idx);</span><br><span class="line">	r0 = r0 * r0;</span><br><span class="line">	return r0 + (1 - r0) * pow((1 - cosine), 5);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="绘制"><a href="#绘制" class="headerlink" title="绘制"></a>绘制</h3><p>光追结果由递归绘制，自行调节递归深度，越深可获得越好的细节。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">vec3 paint(const ray&amp; r, hitable* world, int depth)</span><br><span class="line">&#123;</span><br><span class="line">	hit_record rec;</span><br><span class="line">	if (world-&gt;hit(r, 0.001, FLT_MAX, rec)) </span><br><span class="line">	&#123;</span><br><span class="line">		ray scattered;</span><br><span class="line">		vec3 attenuation;</span><br><span class="line">		if (depth &lt; 50 &amp;&amp; rec.material_ptr-&gt;scatter(r, rec, attenuation, scattered)) 		&#123;</span><br><span class="line">			return attenuation * paint(scattered, world, depth + 1);</span><br><span class="line">		&#125;</span><br><span class="line">		else </span><br><span class="line">		&#123;</span><br><span class="line">			return vec3(0, 0, 0);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	else </span><br><span class="line">	&#123;</span><br><span class="line">		vec3 unit_direction = normalized_vector(r.direction());</span><br><span class="line">		float t = 0.5 * (unit_direction.y() + 1.0);</span><br><span class="line">		return (1.0 - t) * vec3(1.0, 1.0, 1.0) + t * vec3(0.5, 0.7, 1.0);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/10/04/Ray-tracing/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
