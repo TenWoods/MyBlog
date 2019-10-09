@@ -55,20 +55,20 @@
   };
 </script>
 
-  <meta name="description" content="光线追踪简单实现根据《Ray Tracing in a Weekend》这本书做的。">
+  <meta name="description" content="根据《Ray Tracing in a Weekend》这本书做的。">
 <meta name="keywords" content="图形学">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ray tracing">
 <meta property="og:url" content="http://yoursite.com/2019/10/04/Ray-tracing/index.html">
 <meta property="og:site_name" content="十木杂物间">
-<meta property="og:description" content="光线追踪简单实现根据《Ray Tracing in a Weekend》这本书做的。">
+<meta property="og:description" content="根据《Ray Tracing in a Weekend》这本书做的。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Ray-tracing/1.png">
 <meta property="og:image" content="https://wikimedia.org/api/rest_v1/media/math/render/svg/b6b2a5ea2d5d1fdf92e3b13e58bd3f91a48236ff">
-<meta property="og:updated_time" content="2019-10-07T13:21:25.226Z">
+<meta property="og:updated_time" content="2019-10-08T12:54:52.022Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ray tracing">
-<meta name="twitter:description" content="光线追踪简单实现根据《Ray Tracing in a Weekend》这本书做的。">
+<meta name="twitter:description" content="根据《Ray Tracing in a Weekend》这本书做的。">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Ray-tracing/1.png">
   <link rel="canonical" href="http://yoursite.com/2019/10/04/Ray-tracing/">
 
@@ -237,7 +237,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-10-07 21:21:25" itemprop="dateModified" datetime="2019-10-07T21:21:25+08:00">2019-10-07</time>
+                <time title="修改时间：2019-10-08 20:54:52" itemprop="dateModified" datetime="2019-10-08T20:54:52+08:00">2019-10-08</time>
               </span>
             
           
@@ -253,8 +253,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="光线追踪简单实现"><a href="#光线追踪简单实现" class="headerlink" title="光线追踪简单实现"></a>光线追踪简单实现</h1><p>根据《Ray Tracing in a Weekend》这本书做的。</p><a id="more"></a>
-<h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>.ppm的图片格式，用VS的话可以直接进项目属性页-&gt;调试中把到控制台的输出重定向到文件中。</p>
+        <p>根据《Ray Tracing in a Weekend》这本书做的。</p>
+<a id="more"></a>
+<h1 id="光线追踪简单实现"><a href="#光线追踪简单实现" class="headerlink" title="光线追踪简单实现"></a>光线追踪简单实现</h1><h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>.ppm的图片格式，用VS的话可以直接进项目属性页-&gt;调试中把到控制台的输出重定向到文件中。</p>
 <p><img src="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Ray-tracing/1.png" alt=""></p>
 <p>ppm格式示例：</p>
 <blockquote>
@@ -267,7 +268,7 @@
 <p>ppm格式的起始两个字节为P3或者P6，第二行为图像大小，第三行描述像素的最大颜色组成，最后为图像数据。</p>
 <h3 id="向量类"><a href="#向量类" class="headerlink" title="向量类"></a>向量类</h3><p>这个类没啥好说的，实现基础的向量运算就行。实在嫌麻烦可以直接用glm里的vec3。</p>
 <h3 id="射线类"><a href="#射线类" class="headerlink" title="射线类"></a>射线类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class ray</span><br><span class="line">&#123;</span><br><span class="line">private:</span><br><span class="line">	vec3 A;</span><br><span class="line">	vec3 B;</span><br><span class="line">public :</span><br><span class="line">	ray() &#123;&#125;</span><br><span class="line">	ray(vec3 origin, vec3 direction) : A(origin), B(direction)</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	vec3 origin() const</span><br><span class="line">	&#123;</span><br><span class="line">		return A;</span><br><span class="line">	&#125;</span><br><span class="line">	vec3 direction() const</span><br><span class="line">	&#123;</span><br><span class="line">		return B;</span><br><span class="line">	&#125;</span><br><span class="line">	vec3 point_at_parameter(float t) const</span><br><span class="line">	&#123;</span><br><span class="line">		return A + t * B;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>射线由起点和方向组成，并需要一个方法–能根据输入参数t返回一个射线路径上的点。</p>
+<p>射线由起点和方向组成，并需要一个方法—能根据输入参数t返回一个射线路径上的点。</p>
 <h3 id="光线撞击判定"><a href="#光线撞击判定" class="headerlink" title="光线撞击判定"></a>光线撞击判定</h3><p>这个程序只进行球类的判定。设球心坐标为(xc, yc, zc)，则点是否在球上的判定式为(x - xc)^2 + (y - yc)^2 + (z - zc)^2 = R^2</p>
 <p>转换为向量形式：dot((<strong>A</strong> + t <em> <strong>B</strong> - <strong>C</strong>), (<strong>A</strong> + t </em> <strong>B</strong> - <strong>C</strong>)) = R * R</p>
 <p>=&gt; t <em> t </em> dot(<strong>B</strong>, <strong>B</strong>) + 2 <em> t </em> dot(<strong>B</strong>, <strong>A - C</strong>) + dot(<strong>A - C</strong>, <strong>A - C</strong>) - R * R = 0</p>
@@ -325,8 +326,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/10/04/《全局光照》读书笔记（其一）/" rel="prev" title="《全局光照》读书笔记（其一）">
-                  《全局光照》读书笔记（其一） <i class="fa fa-chevron-right"></i>
+                <a href="/2019/10/04/《全局光照》读书笔记（一）/" rel="prev" title="《全局光照》读书笔记（一）">
+                  《全局光照》读书笔记（一） <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -398,7 +399,7 @@
       
       <div class="site-state-item site-state-tags">
         
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span>
         
       </div>
