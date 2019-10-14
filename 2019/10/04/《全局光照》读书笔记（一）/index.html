@@ -257,8 +257,7 @@
 <p>间接光照：间接漫反射是最重要的全局光照效果，主要处理方式为光照贴图(light map)和在空白空间对环境关照进行稀疏采样。</p>
 <h2 id="焦散与散射"><a href="#焦散与散射" class="headerlink" title="焦散与散射"></a>焦散与散射</h2><p>焦散：光通过光泽面的反射或折射后，多束光落在同一个漫反射表面点上。</p>
 <p>散射：由于许多物体是半透明的，导致光从物体表面进入后部分被吸收(absorbed)部分发生散射(scattered)从物体表面发射出去，出射点可能与入射点位置不一样。次表面散射(subsurface scattering)表示由于物体内部存在介质的不连续性，导致折射进物体内部的光在经历多次散射后重新从另一个位置反射回空中。</p>
-<h2 id="辐射度量学-重点"><a href="#辐射度量学-重点" class="headerlink" title="辐射度量学(重点)"></a>辐射度量学(重点)</h2><div class="table-container">
-<table>
+<h2 id="辐射度量学-重点"><a href="#辐射度量学-重点" class="headerlink" title="辐射度量学(重点)"></a>辐射度量学(重点)</h2><table>
 <thead>
 <tr>
 <th>中文名称</th>
@@ -300,42 +299,23 @@
 </tr>
 </tbody>
 </table>
-</div>
 <h3 id="立体角"><a href="#立体角" class="headerlink" title="立体角"></a>立体角</h3><p>立体角的数学符号为$\Omega$，单位为$sr$，它是steradians的缩写。2D中以圆弧的长度表示对应角度，3D中则以单位球上一块区域面积的大小来表示对应的立体角。</p>
-<p>在球面坐标系中，单位球上任意一块区域A面积可以表示为：</p>
-<script type="math/tex; mode=display">
-\Omega = \int\int_A sin\theta d\theta d\phi</script><p>$\theta$表示经度，$\phi$表示纬度。</p>
-<h3 id="辐射能量"><a href="#辐射能量" class="headerlink" title="辐射能量"></a>辐射能量</h3><p>每个光子都带有能量，这个能量正比于它的频率v：</p>
-<script type="math/tex; mode=display">
-Q = hv</script><p>其中，$ h = 6.62620 \times 10^{-34} J·s$</p>
+<p>在球面坐标系中，单位球上任意一块区域A面积可以表示为：<br>$$<br>\Omega = \int\int_A sin\theta d\theta d\phi<br>$$<br>$\theta$表示经度，$\phi$表示纬度。</p>
+<h3 id="辐射能量"><a href="#辐射能量" class="headerlink" title="辐射能量"></a>辐射能量</h3><p>每个光子都带有能量，这个能量正比于它的频率v：<br>$$<br>Q = hv<br>$$<br>其中，$ h = 6.62620 \times 10^{-34} J·s$</p>
 <h3 id="辐射通量"><a href="#辐射通量" class="headerlink" title="辐射通量"></a>辐射通量</h3><p>表示光源每秒钟发射的功率( $dQ / dt$ )，单位为瓦特(W)。</p>
 <h3 id="辐射亮度"><a href="#辐射亮度" class="headerlink" title="辐射亮度"></a>辐射亮度</h3><p>在辐射度量学中通常考虑的是从面A的一部分射出的光能量。</p>
-<p>设$P(\xi, \eta)$ 是A面上的一点，现在P处取一面元$dA$，并围绕极角$(\alpha, \beta)$方向取一立体角$dw$，另外设$dw$方向与$dA$法线的夹角为$\theta$，则单位时间由片元$dA$发射到$dw$内的能量值$d\Phi$可以表示为：</p>
-<script type="math/tex; mode=display">
-d\Phi = L\bar{cos}\theta dAdw</script><p>其中L是一个因子，一般与位置$(\xi, \eta)$和方向$(\alpha, \beta)$有关：</p>
-<script type="math/tex; mode=display">
-L = L(\xi, \eta ; \alpha, \beta)</script><p><strong>L称作点</strong>$(\xi, \eta)$<strong>处方向</strong>$(\alpha, \beta)$<strong>上的的辐射亮度(radiance)，单位为</strong>$W/(m^2 · sr)$。</p>
-<h3 id="辐射强度"><a href="#辐射强度" class="headerlink" title="辐射强度"></a>辐射强度</h3><script type="math/tex; mode=display">
-dI = d\Phi / dw = L\bar{cos}\theta dA</script><p>对一个面A的区域求积分得：</p>
-<script type="math/tex; mode=display">
-I(\alpha, \beta) = \int L\bar{cos}dA</script><p>$I$称为面积A在方向$(\alpha, \beta)$上的辐射强度(radiant intensity)，其单位为W/$sr$。</p>
-<p>当L与方向无关时，辐射是各向同性(isotropic)。如果辐射是各项同性并且辐射面是平面，则方程可简化为：</p>
-<script type="math/tex; mode=display">
-I(\alpha, \beta) = I_0\bar{cos}\theta</script><p>其中，</p>
-<script type="math/tex; mode=display">
-I_0 = \int LdA</script><p>这时，任何方向上的辐射强度随该方向与面法向量间夹角的余弦的变化而变化。</p>
-<h3 id="辐射照度"><a href="#辐射照度" class="headerlink" title="辐射照度"></a>辐射照度</h3><script type="math/tex; mode=display">
-dE = d\Phi / dA = L\bar{cos}\theta dw</script><p>对某一立体角积分得：</p>
-<script type="math/tex; mode=display">
-E(\xi, \eta) = \int L\bar{cos}\theta dw</script><p>E称为点$(\xi, \eta)$的辐射照度(irradiance)，其单位为W/$m^2$，它是点$(\xi, \eta)$沿各个方向对辐射亮度L的积分。</p>
+<p>设$P(\xi, \eta)$ 是A面上的一点，现在P处取一面元$dA$，并围绕极角$(\alpha, \beta)$方向取一立体角$dw$，另外设$dw$方向与$dA$法线的夹角为$\theta$，则单位时间由片元$dA$发射到$dw$内的能量值$d\Phi$可以表示为：<br>$$<br>d\Phi = L\bar{cos}\theta dAdw<br>$$<br>其中L是一个因子，一般与位置$(\xi, \eta)$和方向$(\alpha, \beta)$有关：<br>$$<br>L = L(\xi, \eta ; \alpha, \beta)<br>$$<br><strong>L称作点</strong>$(\xi, \eta)$<strong>处方向</strong>$(\alpha, \beta)$<strong>上的的辐射亮度(radiance)，单位为</strong>$W/(m^2 · sr)$。</p>
+<h3 id="辐射强度"><a href="#辐射强度" class="headerlink" title="辐射强度"></a>辐射强度</h3><p>$$<br>dI = d\Phi / dw = L\bar{cos}\theta dA<br>$$</p>
+<p>对一个面A的区域求积分得：<br>$$<br>I(\alpha, \beta) = \int L\bar{cos}dA<br>$$</p>
+<p>$I$称为面积A在方向$(\alpha, \beta)$上的辐射强度(radiant intensity)，其单位为W/$sr$。</p>
+<p>当L与方向无关时，辐射是各向同性(isotropic)。如果辐射是各项同性并且辐射面是平面，则方程可简化为：<br>$$<br>I(\alpha, \beta) = I_0\bar{cos}\theta<br>$$<br>其中，<br>$$<br>I_0 = \int LdA<br>$$<br>这时，任何方向上的辐射强度随该方向与面法向量间夹角的余弦的变化而变化。</p>
+<h3 id="辐射照度"><a href="#辐射照度" class="headerlink" title="辐射照度"></a>辐射照度</h3><p>$$<br>dE = d\Phi / dA = L\bar{cos}\theta dw<br>$$</p>
+<p>对某一立体角积分得：<br>$$<br>E(\xi, \eta) = \int L\bar{cos}\theta dw<br>$$<br>E称为点$(\xi, \eta)$的辐射照度(irradiance)，其单位为W/$m^2$，它是点$(\xi, \eta)$沿各个方向对辐射亮度L的积分。</p>
 <p>由于辐射照度表示一个点接收来自各个方向的辐射亮度，所以在图形学中，它被用来表述表面的一个点接收的所有光照。</p>
 <p>辐射照度页可以表示光离开一个表面的强度，称为出射度。通常用辐射通量密度(radiant flux density)来统称一个表面的出射或入射强度。</p>
 <p>对于点光源：</p>
-<p>设dA是点P处的面元，Q为点光源位置。QP = r，又设$\theta$为QP与dA的法线夹角，则光源在单位时间内射过dA的能量是$Idw$其中$I$是光源沿QP方向的辐射强度，dw是对Q所张的立体角：</p>
-<script type="math/tex; mode=display">
-cos\theta dA = r^2dw</script><p>因此：</p>
-<script type="math/tex; mode=display">
-E = d\Phi / dA = Idw / dA = \frac{\frac{Icos\theta dA}{r^2}}{dA} = \frac{Icos\theta}{r^2}</script>
+<p>设dA是点P处的面元，Q为点光源位置。QP = r，又设$\theta$为QP与dA的法线夹角，则光源在单位时间内射过dA的能量是$Idw$其中$I$是光源沿QP方向的辐射强度，dw是对Q所张的立体角：<br>$$<br>cos\theta dA = r^2dw<br>$$<br>因此：<br>$$<br>E = d\Phi / dA = Idw / dA = \frac{\frac{Icos\theta dA}{r^2}}{dA} = \frac{Icos\theta}{r^2}<br>$$</p>
+
     </div>
 
     
@@ -434,7 +414,7 @@ E = d\Phi / dA = Idw / dA = \frac{\frac{Icos\theta dA}{r^2}}{dA} = \frac{Icos\th
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -55,13 +55,13 @@
   };
 </script>
 
-  <meta name="description" content="《全局光照》第一章采样部分">
+  <meta name="description" content="《全局光照》第一章采样部分总结">
 <meta name="keywords" content="图形学">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《全局光照》读书笔记（二）">
 <meta property="og:url" content="http://yoursite.com/2019/10/08/《全局光照》读书笔记（二）/index.html">
 <meta property="og:site_name" content="十木杂物间">
-<meta property="og:description" content="《全局光照》第一章采样部分">
+<meta property="og:description" content="《全局光照》第一章采样部分总结">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/AliasedSpectrum.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/rebuild.png">
@@ -69,10 +69,10 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/Bilinear_interpolation.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/RealTimeRendering_MSAASamplingPattern.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/v2-fbc492412afa641df4c6a29b9045e60c_hd.jpg">
-<meta property="og:updated_time" content="2019-10-09T08:03:57.158Z">
+<meta property="og:updated_time" content="2019-10-12T00:28:00.427Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《全局光照》读书笔记（二）">
-<meta name="twitter:description" content="《全局光照》第一章采样部分">
+<meta name="twitter:description" content="《全局光照》第一章采样部分总结">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/AliasedSpectrum.png">
   <link rel="canonical" href="http://yoursite.com/2019/10/08/《全局光照》读书笔记（二）/">
 
@@ -241,7 +241,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-10-09 16:03:57" itemprop="dateModified" datetime="2019-10-09T16:03:57+08:00">2019-10-09</time>
+                <time title="修改时间：2019-10-12 08:28:00" itemprop="dateModified" datetime="2019-10-12T08:28:00+08:00">2019-10-12</time>
               </span>
             
           
@@ -257,7 +257,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>《全局光照》第一章采样部分</p>
+        <p>《全局光照》第一章采样部分总结</p>
 <a id="more"></a>
 <h1 id="采样与反走样"><a href="#采样与反走样" class="headerlink" title="采样与反走样"></a>采样与反走样</h1><h2 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h2><h3 id="傅里叶变换与级数"><a href="#傅里叶变换与级数" class="headerlink" title="傅里叶变换与级数"></a>傅里叶变换与级数</h3><p>对于任意的非周期函数有傅里叶变换</p>
 <p>正变换：<br>$$<br>F(\mu) = \int_{-\infty}^\infty f(t)e^{-j2\pi \mu t}dt<br>$$<br>逆变换：<br>$$<br>f(t) = \int_{-\infty}^\infty F(\mu)e^{j2\pi \mu t}du<br>$$<br>利用欧拉公式可将正变换变为：<br>$$<br>F(\mu) = \int_{-\infty}^\infty f(t)cos(2\pi \mu t) - jsin(2\pi \mu t)dt<br>$$<br>对于任意的周期函数有傅里叶级数：<br>$$<br>f(t) = \sum_{n = {-\infty}}^\infty c_ne^{j\frac{2\pi n}{T}t}<br>$$<br>其中：<br>$$<br>c_n = \frac{1}{T}\int_{-T/2}^{T/2} f(t)e^{-j\frac{2\pi n}{T}t}dt, n=0,n=\pm1, n=\pm2,…<br>$$<br>傅里叶变换的实质是将空间域(spatial domain)或时间域(time domain)变换到频率域(frequency domain)。当一个函数被变换到频率域后，可以检测该函数是否具有最大频率。如果存在则该函数被称为带限函数(bandlimited function)，这意味着可以检测函数的频率带宽(bandwidth)。</p>
@@ -321,6 +321,10 @@
 
             <div class="post-nav-prev post-nav-item">
               
+                <a href="/2019/10/11/《全局光照》读书笔记（三）/" rel="prev" title="《全局光照》读书笔记（三）">
+                  《全局光照》读书笔记（三） <i class="fa fa-chevron-right"></i>
+                </a>
+              
             </div>
           </div>
         
@@ -381,7 +385,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
