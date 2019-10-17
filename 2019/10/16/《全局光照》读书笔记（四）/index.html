@@ -55,14 +55,23 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="《全局光照》并行计算架构部分">
+<meta name="keywords" content="图形学">
+<meta property="og:type" content="article">
 <meta property="og:title" content="《全局光照》读书笔记（四）">
 <meta property="og:url" content="http://yoursite.com/2019/10/16/《全局光照》读书笔记（四）/index.html">
 <meta property="og:site_name" content="十木杂物间">
+<meta property="og:description" content="《全局光照》并行计算架构部分">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-16T01:46:58.687Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/4/560px-Von_Neumann_architecture.svg.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/4/1920px-Pipeline%2C_4_stage_with_bubble.svg.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/4/1-2.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/4/Page-8-Image-1.png">
+<meta property="og:updated_time" content="2019-10-17T09:15:54.358Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《全局光照》读书笔记（四）">
+<meta name="twitter:description" content="《全局光照》并行计算架构部分">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/4/560px-Von_Neumann_architecture.svg.png">
   <link rel="canonical" href="http://yoursite.com/2019/10/16/《全局光照》读书笔记（四）/">
 
 
@@ -222,6 +231,18 @@
               <time title="创建时间：2019-10-16 09:46:58" itemprop="dateCreated datePublished" datetime="2019-10-16T09:46:58+08:00">2019-10-16</time>
             </span>
           
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-10-17 17:15:54" itemprop="dateModified" datetime="2019-10-17T17:15:54+08:00">2019-10-17</time>
+              </span>
+            
+          
 
           
 
@@ -234,7 +255,79 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <p>《全局光照》并行计算架构部分</p>
+<a id="more"></a>
+<h1 id="冯诺依曼架构与其瓶颈"><a href="#冯诺依曼架构与其瓶颈" class="headerlink" title="冯诺依曼架构与其瓶颈"></a>冯诺依曼架构与其瓶颈</h1><h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>冯诺依曼架构的计算机由以下部分组成:</p>
+<ul>
+<li>用于二进制运算的算术逻辑单元(arithmetic logic unit,ALU)</li>
+<li>高速存储指令和数据的寄存器组(processor registers)</li>
+<li>用来控制指令读取的控制单元(control unit)</li>
+<li>用于存储所有指令和数据的内存</li>
+<li>外加一些大容量存储和输入输出设备</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/4/560px-Von_Neumann_architecture.svg.png" alt=""></p>
+<h2 id="瓶颈"><a href="#瓶颈" class="headerlink" title="瓶颈"></a>瓶颈</h2><p>随着处理器运行速度的提高，其花费了更多时间用于等待从内存获取数据，不管处理器多快，它都受限于内存传输速度。</p>
+<h1 id="克服瓶颈的方法"><a href="#克服瓶颈的方法" class="headerlink" title="克服瓶颈的方法"></a>克服瓶颈的方法</h1><h2 id="缓存-cache"><a href="#缓存-cache" class="headerlink" title="缓存(cache)"></a>缓存(cache)</h2><p>缓存是一种容量更小，更快的内存，缓存里的数据来自于主存。当处理器需要从主存获取指令或数据时，会先查询一级缓存(L1)，若不在则会查询二级与三级缓存(L2或L3)。如果缓存中没有此数据则从主存中读取。当在缓存中读取数据是称作缓存命中(cache hit)，反之称为缓存失效(cache miss)。缓存的设计利用的是局部性原理，包括空间局部性和时间局部性。</p>
+<h2 id="预取-prefetching"><a href="#预取-prefetching" class="headerlink" title="预取(prefetching)"></a>预取(prefetching)</h2><p>预取是为了减小缓存失效的几率，通过在处理器读取数据之前预测可能会读取的数据然后读取到缓存中实现。预取技术通常集成于处理器内部，各级缓存都有自己的预取器(prefetcher)</p>
+<p>对于数据预取最常用的是常数步幅(constant-stride)模式，即根据之前数据访问的模式预先载入当前数据邻近对应长度范围的数据。但如果程序对数据读取在内存空间随机跳跃则预取器会毫无作用。</p>
+<p>对于指令的预取，由于大多情况下指令是线性排列顺序执行的，其相对于数据预取会更加简单。但是函数指针和分支语句会使得指令读取非线性化。</p>
+<h2 id="多线程-multithreading"><a href="#多线程-multithreading" class="headerlink" title="多线程(multithreading)"></a>多线程(multithreading)</h2><p>多线程会在下面并行架构中讲解。</p>
+<h1 id="并行计算架构"><a href="#并行计算架构" class="headerlink" title="并行计算架构"></a>并行计算架构</h1><h2 id="指令级并行"><a href="#指令级并行" class="headerlink" title="指令级并行"></a>指令级并行</h2><p>指令级并行计算(instruction-level parallelism,ILP)指一个单处理器同时执行多条指令的能力。指令级并行技术的目的就是要尽可能地提升ILP值。</p>
+<h3 id="指令管线优化"><a href="#指令管线优化" class="headerlink" title="指令管线优化"></a>指令管线优化</h3><p>指令管线优化是各种ILP技术的基础，它将一条指令完整的执行流程分成多个阶段。这样划分可以不让处理器一次只处理一条指令，从而充分利用处理器资源。最经典的5步划分为:</p>
+<ul>
+<li>IF：获取指令(instruction fetch)，处理器从一级缓存中获取一个指令并修改程序计数器(program counter,PC)的值。</li>
+<li>ID/RF：解码指令以及从寄存器中获取操作数(instruction decode and register fetch)</li>
+<li>EX：执行</li>
+<li>MEM：读取内存(memory access)</li>
+<li>WB：写回寄存器(register write back)</li>
+</ul>
+<p>由于将指令计算过程管线化，每个管线阶段都允许执行一条指令，充分利用各个生产流水线提高了整个管线的吞吐能力。指令管线化的工作效率取决于应用程序的可并行性，当程序指令中出现依赖时称之为一个障碍(hazard)。通常硬件使用三种主要方法来处理串行指令的并行障碍:</p>
+<ul>
+<li>管线气泡(pipeline bubble)</li>
+<li>操作数前移(pperand forwarding)</li>
+<li>乱序执行(out-of-order execution)</li>
+</ul>
+<h3 id="管线气泡"><a href="#管线气泡" class="headerlink" title="管线气泡"></a>管线气泡</h3><p>当指令包含障碍时，其在解码阶段被识别，同时处理器会创建一个气泡占据该指令的解码阶段，使当前管线的解码阶段处于空闲等待状态。管线气泡会导致后续一个或多个指令被延迟。</p>
+<p><img src="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/4/1920px-Pipeline%2C_4_stage_with_bubble.svg.png" alt=""></p>
+<p>在这种解决方案中，每个气泡表示该时钟周期有一个阶段处理空闲状态。</p>
+<h3 id="操作数前移"><a href="#操作数前移" class="headerlink" title="操作数前移"></a>操作数前移</h3><p>当指令间出现依赖关系时，后一项指令必须等待前一项指令执行完毕并将数据输出到寄存器后才能执行。通常数据写入和从寄存器里读取的过程会占据几个时钟周期。当后项指令依赖前向指令的值时，操作数前移可以解决这种障碍。</p>
+<p>操作数前移需要处理器对这类依赖进行探测，如果后项指令依赖前项指令的值，则芯片集成电路内部直接将值传递给后项不要通过寄存器读写。由于程序中通常存在大量这种前后依赖关系，操作数前移技术不仅能够有效避免这种障碍，而且大大节省了数据在寄存器之间存储和读取导致的时间延迟。</p>
+<h3 id="乱序执行"><a href="#乱序执行" class="headerlink" title="乱序执行"></a>乱序执行</h3><p>乱序执行基于一个事实，即如果后面的指令不依赖于前面的指令，或者它此时具备执行指令需要的操作数数据，则它可以先于前面的指令被执行。尽管执行顺序被打乱，但程序执行的结果必须和原来一样。</p>
+<p>乱序执行的指令执行步骤如下：</p>
+<ol>
+<li>获取指令</li>
+<li>将指令分配到一个指令队列</li>
+<li>指令在指令队列中等待，直到其操作数可用，此时它可以先于前面的指令被执行</li>
+<li>执行指令</li>
+<li>将指令输出结果保存在一个队列中</li>
+<li>只有当一个指令的前面所有指令执行完毕并写入寄存器后才能够将结果写入寄存器，以保证执行结果的顺序一致性</li>
+</ol>
+<h2 id="线程级并行"><a href="#线程级并行" class="headerlink" title="线程级并行"></a>线程级并行</h2><p>多线程(multithreading)技术是指在单个处理器或者一个多核处理器的其中一个核内部拥有同时执行多个线程的能力，这些线程在内部共享该处理器的各种资源，包括计算单元、寄存器、缓存等。</p>
+<h3 id="时分多线程技术-temporal-multithreading-TMT"><a href="#时分多线程技术-temporal-multithreading-TMT" class="headerlink" title="时分多线程技术(temporal multithreading,TMT)"></a>时分多线程技术(temporal multithreading,TMT)</h3><p>最简单的时块多线程(block multithreading)，它会一直执行一个线程直到其遇到很大的延迟时，会切换到另一个“可执行状态”的线程。</p>
+<p>另一种比较聪明的方法是交叉多线程(interleaved multithreading)，这种方法是在每个时钟周期都执行一个不同于上一个时钟周期的线程。</p>
+<h3 id="同时多线程技术-simultaneous-multithreading-SMT"><a href="#同时多线程技术-simultaneous-multithreading-SMT" class="headerlink" title="同时多线程技术(simultaneous multithreading,SMT)"></a>同时多线程技术(simultaneous multithreading,SMT)</h3><p>以英特尔的超线程技术(Hyper-Threading Technology)为例。在结构上，一个超线程架构的处理器由两个逻辑处理器(logical processor)组成，每个逻辑处理器拥有自己的架构状态等，但共享一些执行资源。</p>
+<p>每个逻辑处理器拥有的资源包括:</p>
+<ul>
+<li>独立的架构状态</li>
+<li>并发执行自己的指令</li>
+<li>正在执行的指令可以被独立地打断和停止</li>
+</ul>
+<p>共享的资源有:</p>
+<ul>
+<li>处理器的执行引擎(Execution engine)以及L1缓存</li>
+<li>系统数据总线(system bus inerface)</li>
+</ul>
+<p>与多核处理器不同在于，SMT并没有多个物理上的执行资源如执行单元、指令调度、寄存器、L1缓存等。</p>
+<h2 id="处理器级并行"><a href="#处理器级并行" class="headerlink" title="处理器级并行"></a>处理器级并行</h2><h3 id="多处理器架构的对等性"><a href="#多处理器架构的对等性" class="headerlink" title="多处理器架构的对等性"></a>多处理器架构的对等性</h3><p>对称性是指所有处理器调的地位和功能是否对等。</p>
+<p>非对等多处理器架构(Asymmetric multiprocessing,ASMP)比较典型的例子是Cell处理器架构，它的思想是用一个常规处理器作为监管处理器，该处理器与大量的高速协作处理器相连。</p>
+<p><img src="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/4/1-2.jpg" alt=""></p>
+<p>PPE(Power Processor Element)担任与外界和流处理器的接口，协作处理器SPE(Synergistic Processing Element)则在PPE的管理下处理数据集。通过一个共享的互联总线(Element inerconnect bus)，SPE之间以及SPE与PPE之间可以相互通信。</p>
+<p>Cell处理器的设计目标是为了克服内存访问的延迟对处理器性能的限制。Cell的独特之处在于摒弃了内存缓存结构，而是直接将数据和指令直接发送到每个SPE的本地内存空间LS(Local store)，SPE直接从LS上存取数据，每个SPE都有一个直接内存存取(Direct memory access,DMA)引擎，用于将LS的数据高速同步到SPE或者PPE的内存上。</p>
+<h3 id="多处理架构的通信方式"><a href="#多处理架构的通信方式" class="headerlink" title="多处理架构的通信方式"></a>多处理架构的通信方式</h3><p>通信方式主要有共享内存和基于网络的消息传递方式。</p>
+<p>共享内存方式中，每个处理器拥有自己的缓存系统，但共享整个主存，所以需要同步机制保证主存与缓存中数据的一致性(cache coherence)。</p>
+<p><img src="https://raw.githubusercontent.com/TenWoods/ImageSource/master/Blog/Global-illumination/4/Page-8-Image-1.png" alt=""></p>
+<p>另一种多处理器架构称为集群，即通过一些独立廉价的计算机系统通过网络连接起来组成一个多处理器系统。</p>
+
     </div>
 
     
@@ -244,6 +337,15 @@
       
 
       <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/图形学/" rel="tag"># 图形学</a>
+            
+          </div>
+        
 
         
 
@@ -304,6 +406,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#冯诺依曼架构与其瓶颈"><span class="nav-number">1.</span> <span class="nav-text">冯诺依曼架构与其瓶颈</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#架构"><span class="nav-number">1.1.</span> <span class="nav-text">架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#瓶颈"><span class="nav-number">1.2.</span> <span class="nav-text">瓶颈</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#克服瓶颈的方法"><span class="nav-number">2.</span> <span class="nav-text">克服瓶颈的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存-cache"><span class="nav-number">2.1.</span> <span class="nav-text">缓存(cache)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预取-prefetching"><span class="nav-number">2.2.</span> <span class="nav-text">预取(prefetching)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多线程-multithreading"><span class="nav-number">2.3.</span> <span class="nav-text">多线程(multithreading)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#并行计算架构"><span class="nav-number">3.</span> <span class="nav-text">并行计算架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#指令级并行"><span class="nav-number">3.1.</span> <span class="nav-text">指令级并行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指令管线优化"><span class="nav-number">3.1.1.</span> <span class="nav-text">指令管线优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管线气泡"><span class="nav-number">3.1.2.</span> <span class="nav-text">管线气泡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数前移"><span class="nav-number">3.1.3.</span> <span class="nav-text">操作数前移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#乱序执行"><span class="nav-number">3.1.4.</span> <span class="nav-text">乱序执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程级并行"><span class="nav-number">3.2.</span> <span class="nav-text">线程级并行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#时分多线程技术-temporal-multithreading-TMT"><span class="nav-number">3.2.1.</span> <span class="nav-text">时分多线程技术(temporal multithreading,TMT)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同时多线程技术-simultaneous-multithreading-SMT"><span class="nav-number">3.2.2.</span> <span class="nav-text">同时多线程技术(simultaneous multithreading,SMT)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理器级并行"><span class="nav-number">3.3.</span> <span class="nav-text">处理器级并行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多处理器架构的对等性"><span class="nav-number">3.3.1.</span> <span class="nav-text">多处理器架构的对等性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多处理架构的通信方式"><span class="nav-number">3.3.2.</span> <span class="nav-text">多处理架构的通信方式</span></a></li></ol></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
@@ -415,6 +519,56 @@
 
   
 
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
   
 
   
