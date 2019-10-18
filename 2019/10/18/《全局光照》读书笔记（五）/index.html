@@ -55,19 +55,19 @@
   };
 </script>
 
-  <meta name="description" content="一个在物体表面绘制的简单思路">
-<meta name="keywords" content="如何在物体表面社保">
+  <meta name="description" content="第二章GPU并行架构部分">
+<meta name="keywords" content="《全局光照》">
 <meta property="og:type" content="article">
-<meta property="og:title" content="物体表面喷漆">
-<meta property="og:url" content="http://yoursite.com/2018/10/17/物体表面喷漆/index.html">
+<meta property="og:title" content="《全局光照》读书笔记（五）">
+<meta property="og:url" content="http://yoursite.com/2019/10/18/《全局光照》读书笔记（五）/index.html">
 <meta property="og:site_name" content="十木杂物间">
-<meta property="og:description" content="一个在物体表面绘制的简单思路">
+<meta property="og:description" content="第二章GPU并行架构部分">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-22T00:56:20.773Z">
+<meta property="og:updated_time" content="2019-10-18T09:05:58.744Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="物体表面喷漆">
-<meta name="twitter:description" content="一个在物体表面绘制的简单思路">
-  <link rel="canonical" href="http://yoursite.com/2018/10/17/物体表面喷漆/">
+<meta name="twitter:title" content="《全局光照》读书笔记（五）">
+<meta name="twitter:description" content="第二章GPU并行架构部分">
+  <link rel="canonical" href="http://yoursite.com/2019/10/18/《全局光照》读书笔记（五）/">
 
 
 <script id="page-configurations">
@@ -81,7 +81,7 @@
   };
 </script>
 
-  <title>物体表面喷漆 | 十木杂物间</title>
+  <title>《全局光照》读书笔记（五） | 十木杂物间</title>
   
 
 
@@ -195,7 +195,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/17/物体表面喷漆/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/18/《全局光照》读书笔记（五）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="じゅうき">
@@ -207,7 +207,7 @@
       <meta itemprop="name" content="十木杂物间">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">物体表面喷漆
+        <h1 class="post-title" itemprop="name headline">《全局光照》读书笔记（五）
 
           
         </h1>
@@ -223,19 +223,11 @@
                 
               
 
-              <time title="创建时间：2018-10-17 19:04:39" itemprop="dateCreated datePublished" datetime="2018-10-17T19:04:39+08:00">2018-10-17</time>
+              <time title="创建时间：2019-10-18 14:06:43 / 修改时间：17:05:58" itemprop="dateCreated datePublished" datetime="2019-10-18T14:06:43+08:00">2019-10-18</time>
             </span>
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2018-10-22 08:56:20" itemprop="dateModified" datetime="2018-10-22T08:56:20+08:00">2018-10-22</time>
-              </span>
             
           
 
@@ -250,17 +242,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>一个在物体表面绘制的简单思路<br><a id="more"></a><br><strong>主体思路</strong><br>在物体表面上创建一层墨水Texture，所有的墨水图案都绘制在这张Texture上，在shader中同时对物体的原纹理和墨水层纹理进行采样达到喷漆效果。<br><strong>解决两个问题</strong> </p>
-<ul>
-<li>如何知道在哪个位置进行绘制  </li>
-<li>如何进行绘制</li>
-</ul>
-<p>首先，关于获取位置，我是用的是Unity中Raycasthit类里的texcooord。当射线击中物体表面时，Raycasthit.texcoord中就会记录击中点在物体上的纹理坐标，通过这个纹理坐标就可以知道应该在墨水层的哪一个位置进行绘制。<br>然后，关于绘制，我分为两种:</p>
-<ul>
-<li>一种是像守望先锋那样的绘制图案<br>这样的话是需要将图案原封不动地画上去，我使用Texture里的SetPixel()这个方法，以上一步获取的点坐标为基础，遍历绘制图案的每个像素，把它绘制到墨水层上。</li>
-<li>另一种是像Splatoon那样绘制不同颜色的墨水图案<br>这种情况就不需要获取原来图案的具体颜色，只需要把原图案的a通道获取到，绘制出形状，然后根据需要设置rgb值。</li>
-</ul>
-<p><strong>具体实现可以看我github中的Spltoon项目</strong></p>
+        <p>第二章GPU并行架构部分</p>
+<a id="more"></a>
+<h1 id="GPU产生原因"><a href="#GPU产生原因" class="headerlink" title="GPU产生原因"></a>GPU产生原因</h1><p>CPU在大规模并行运算的限制来源于针对串行运算的优化的缓存系统。高速缓存的高成本和操作数从主存到ALU之间的传输的高能耗，导致缓存处理器系统很难扩展到大规模并行计算。</p>
+<p>所以，GPU为了满足大规模并行运算使用了新的思路来代替缓存系统。</p>
+<h1 id="GPU内存结构"><a href="#GPU内存结构" class="headerlink" title="GPU内存结构"></a>GPU内存结构</h1><p><img src="" alt=""></p>
+<p>GPU使用的是程序托管的内存模型，即数据的存放地点由程序员决定。上图为一个GPU的内存结构，其中流处理器族(stream multiprocessor,SM)相当于一个CPU核，每个SM内部有多个流处理器(stream processor,SP)，每个SP相当于用于执行并行计算中的一个独立的线程。</p>
+<h2 id="全局内存"><a href="#全局内存" class="headerlink" title="全局内存"></a>全局内存</h2><p>GPU是计算机系统的附属设备，需要借助CPU才能发挥作用。通常一个GPU的应用程序包含一个CPU宿主程序以及一些GPU内核函数。当程序运行时，宿主程序将这些GPU内核函数指令以及相关的数据分发到GPU设备上，然后从GPU内存中取回计算结果。</p>
+<p>GPU中的内存称为全局内存，CPU和GPU都能对它进行写操作。宿主程序想要在GPU上执行计算时，CPU首先将指令和数据通过PCI-E总线传输到GPU的全局内存上，接着GPU中各个内核线程从全局内存中读取数据并执行计算，然后把结果写回全局内存，最后宿主程序再从全局内存中取回数据到CPU。</p>
+<h2 id="常量-纹理内存"><a href="#常量-纹理内存" class="headerlink" title="常量/纹理内存"></a>常量/纹理内存</h2><p>常量/纹理内存只是全局内存的一种虚拟地址形式，但常量/纹理内存有高速缓存并且都是只读内存。如上图所示，常量内存可以缓存到常量内存缓存存储器上，纹理内存可以缓存到纹理内存缓存存储器上，这些缓存都是L1级缓存。由于缓存都会有缓存丢失问题，对于那些数据不集中或数据利用率不高的内存访问就尽量不要使用常量内存。此外，对于纹理内存，它提供硬件上的线性插值功能使得渲染管线中贴图可以高速处理。</p>
+<h2 id="共享缓存"><a href="#共享缓存" class="headerlink" title="共享缓存"></a>共享缓存</h2><p>共享缓存为了提供更大的带宽，采用了基于存储器切换的架构(bank-switched architecture)，它将共享缓存内部平均分成多个相同尺寸的模块称为存储体(bank)，这些存储体可以被同时使用。任何对共享缓存的读或者是写操作可以均分到n个不同的存储体地址，每个存储体地址都可以被同时访问，使其可以提供相对于单个存储模块的n倍带宽。</p>
+<p>此外，多个线程同时访问同一个存储体时会导致存储体冲突，而且这个冲突并不会引发延迟隐藏机制。</p>
+<h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><p>GPU的每个SM通常拥有上千个寄存器，这些寄存器平均分配到每个SP上，根据线程数量，每个线程可以使用几个到几十个寄存器。使用数量庞大的寄存器的原因其一是延迟隐藏机制，其二是GPU寄存器特征。GPU寄存器会将写入的数据一直保存直至线程完毕退出或是新的数据写入。</p>
 
     </div>
 
@@ -276,7 +269,7 @@
           
           <div class="post-tags">
             
-              <a href="/tags/如何在物体表面社保/" rel="tag"># 如何在物体表面社保</a>
+              <a href="/tags/《全局光照》/" rel="tag"># 《全局光照》</a>
             
           </div>
         
@@ -286,15 +279,15 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
+                <a href="/2019/10/16/《全局光照》读书笔记（四）/" rel="next" title="《全局光照》读书笔记（四）">
+                  <i class="fa fa-chevron-left"></i> 《全局光照》读书笔记（四）
+                </a>
+              
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/10/04/Ray-tracing/" rel="prev" title="Ray tracing">
-                  Ray tracing <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -340,6 +333,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GPU产生原因"><span class="nav-number">1.</span> <span class="nav-text">GPU产生原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GPU内存结构"><span class="nav-number">2.</span> <span class="nav-text">GPU内存结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#全局内存"><span class="nav-number">2.1.</span> <span class="nav-text">全局内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常量-纹理内存"><span class="nav-number">2.2.</span> <span class="nav-text">常量/纹理内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共享缓存"><span class="nav-number">2.3.</span> <span class="nav-text">共享缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#寄存器"><span class="nav-number">2.4.</span> <span class="nav-text">寄存器</span></a></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
@@ -451,6 +446,56 @@
 
   
 
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
   
 
   
