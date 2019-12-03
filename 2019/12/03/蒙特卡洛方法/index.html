@@ -63,7 +63,7 @@
 <meta property="og:site_name" content="十木杂物间">
 <meta property="og:description" content="《全局光照技术》中的蒙特卡洛方法总结">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-03T07:30:09.959Z">
+<meta property="og:updated_time" content="2019-12-03T07:31:24.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡洛方法">
 <meta name="twitter:description" content="《全局光照技术》中的蒙特卡洛方法总结">
@@ -223,7 +223,7 @@
                 
               
 
-              <time title="创建时间：2019-12-03 10:11:24 / 修改时间：15:30:09" itemprop="dateCreated datePublished" datetime="2019-12-03T10:11:24+08:00">2019-12-03</time>
+              <time title="创建时间：2019-12-03 10:11:24 / 修改时间：15:31:24" itemprop="dateCreated datePublished" datetime="2019-12-03T10:11:24+08:00">2019-12-03</time>
             </span>
           
             
@@ -472,6 +472,56 @@
 
   
 
+  
+    
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
   
 
   
