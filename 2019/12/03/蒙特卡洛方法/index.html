@@ -55,14 +55,18 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="概率论基础概率密度函数与累计分布函数">
+<meta name="keywords" content="数学">
+<meta property="og:type" content="article">
 <meta property="og:title" content="蒙特卡洛方法">
 <meta property="og:url" content="http://yoursite.com/2019/12/03/蒙特卡洛方法/index.html">
 <meta property="og:site_name" content="十木杂物间">
+<meta property="og:description" content="概率论基础概率密度函数与累计分布函数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-03T02:11:24.748Z">
+<meta property="og:updated_time" content="2019-12-03T07:27:25.869Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡洛方法">
+<meta name="twitter:description" content="概率论基础概率密度函数与累计分布函数">
   <link rel="canonical" href="http://yoursite.com/2019/12/03/蒙特卡洛方法/">
 
 
@@ -219,8 +223,12 @@
                 
               
 
-              <time title="创建时间：2019-12-03 10:11:24" itemprop="dateCreated datePublished" datetime="2019-12-03T10:11:24+08:00">2019-12-03</time>
+              <time title="创建时间：2019-12-03 10:11:24 / 修改时间：15:27:25" itemprop="dateCreated datePublished" datetime="2019-12-03T10:11:24+08:00">2019-12-03</time>
             </span>
+          
+            
+
+            
           
 
           
@@ -234,7 +242,39 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="概率论基础"><a href="#概率论基础" class="headerlink" title="概率论基础"></a>概率论基础</h1><h2 id="概率密度函数与累计分布函数"><a href="#概率密度函数与累计分布函数" class="headerlink" title="概率密度函数与累计分布函数"></a>概率密度函数与累计分布函数</h2><a id="more"></a><p>随机变量$X$每个$x$值关联一个概率，概率密度函数表示随机变量所有可能值组成的概率分布函数$p(x)$。</p>
+<p>累计分布函数定义为所有随机变量值中小于或等于$y$的随机变量概率的积分:<br>$$<br>P(y)=\int^y_{-\infty}p(x)dx<br>$$</p>
+<h2 id="期望与方差"><a href="#期望与方差" class="headerlink" title="期望与方差"></a>期望与方差</h2><h3 id="离散形式"><a href="#离散形式" class="headerlink" title="离散形式"></a>离散形式</h3><p>$$<br>E[X]=\sum^n_{i=1}p_ix_i<br>$$</p>
+<p>$$<br>\sigma^2=\sum_i(x_i-E[x])^2p_i<br>$$</p>
+<h3 id="连续形式"><a href="#连续形式" class="headerlink" title="连续形式"></a>连续形式</h3><p>$$<br>E[X]=\int^\infty_{-\infty}xp(x)dx<br>$$</p>
+<p>$$<br>\sigma^2=\int(x-E[X])^2p(x)dx<br>$$</p>
+<h2 id="大数定律"><a href="#大数定律" class="headerlink" title="大数定律"></a>大数定律</h2><p>当独立同分布的随机变量抽样和除以抽样数时，可得到对该随机变量期望的一个估计:<br>$$<br>E[x]\approx\bar{X}=\frac{1}{N}\sum^N_{i=1}x_i<br>$$<br>当$N\to\infty$时，随机变量统计平均值接近期望：<br>$$<br>P{E[X]=\lim_{N\to\infty}\frac{1}{N}\sum^N_{i=1}x_i}=1<br>$$</p>
+<h1 id="蒙特卡洛方法"><a href="#蒙特卡洛方法" class="headerlink" title="蒙特卡洛方法"></a>蒙特卡洛方法</h1><p>在渲染方程中的被积函数往往比较复杂，不能简单求出数值解。蒙特卡洛积分的目的是对积分进行近似计算。</p>
+<p>由大数定律可知：<br>$$<br>E[f(x)]=\int_{x\in S}f(x)p(x)d\mu\approx\frac{1}{N}\sum^N_{i=1}f(x_i)<br>$$<br>令$g(x)=f(x)p(x)$，上述期望近似变为积分$I$的估值$I_N$:<br>$$<br>\int_{x\in S}g(x)d\mu\approx\frac{1}{N}\sum^N_{i=1}\frac{g(x_i)}{p(x_i)}<br>$$<br>该估值的期望为:<br>$$<br>E[I_N]=E[\frac{1}{N}\sum^N_{i=1}\frac{g(x_i)}{p(x_i)}]\<br>=\frac{1}{N}\sum^N_{i=1}E[\frac{g(x_i)}{p(x_i)}]\<br>\frac{1}{N}N\int\frac{g(x)}{p(x)}p(x)dx\<br>=\int g(x)dx\<br>=I<br>$$<br>由此可得该估计可以用作$I$的近似，该估计的方差为<br>$$<br>\sigma^2=\frac{1}{N}\int(\frac{g(x)}{p(x)}-I)^2p(x)dx<br>$$<br>可见方差随N的增加线性降低，又由于误差与标准差成正比，因此误差随着$\sqrt{N}$线性降低。理论上蒙特卡洛方法没有对$p(x)$进行要求，但由上式可知$p(x)$分布越接近$g(x)$误差会更小。</p>
+<p>综上，蒙特卡洛方法归纳为以下步骤：</p>
+<ul>
+<li>对满足某一概率分布的随机数进行抽样</li>
+<li>使用抽样值计算$\frac{g(x_i)}{p(x_i)}$，称为样本贡献值</li>
+<li>对所有的抽样结果求平均值得到积分的估计</li>
+</ul>
+<h2 id="抽样方法"><a href="#抽样方法" class="headerlink" title="抽样方法"></a>抽样方法</h2><p>抽样过程可以描述为从$p(x)$对应的随机变量$X$中产生一系列随机数$X_1,X_2,…$使得对于任意$\Omega$属于定义空间$\Omega_0$满足：<br>$$<br>P{X_k\in\Omega}=\int_\Omega p(x)dx \le1<br>$$<br>实际上不能直接从$p(x)$进行抽样，计算机进行抽样过程时首先求取某些基础随机数序列。通常使用均匀分布的随机数，由这个序列作为抽样所需的基础随机数对于概率分布函数确定的随机变量，有逆变换算法和取舍算法。</p>
+<h3 id="逆变换算法"><a href="#逆变换算法" class="headerlink" title="逆变换算法"></a>逆变换算法</h3><p>算法步骤：</p>
+<ol>
+<li>首先计算$p(x)$的累计分布函数：$P(x)=\int^x_0p(x’)dx’$</li>
+<li>计算累计分布函数的反函数：$P^{-1}(x)$</li>
+<li>从$[0,1]$上的均匀分布产生一个随机数$\xi$</li>
+<li>最后求出满足$p(x)$分布的随机数：$X_i=P^{-1}(\xi)$</li>
+</ol>
+<h3 id="取舍算法"><a href="#取舍算法" class="headerlink" title="取舍算法"></a>取舍算法</h3><p>考虑一个限制在$[a,b]$上的分布函数$f(x)$，其最大值为$c$，其他区间上为0。</p>
+<p>算法步骤：</p>
+<ol>
+<li>产生一个$[a,b]$上的均匀分布随机数：$X\sim U(a,b)$。</li>
+<li>产生一个$[0,c]$上独立于$X$的均匀分布随机数：$Y\sim U(0,c)$。</li>
+<li>如果$Y\le f(X)$则接受，接受的随机数为$Z=X$，否则拒绝返回第一步。</li>
+</ol>
+<h3 id="基于马尔可夫链的梅特罗波利算法"><a href="#基于马尔可夫链的梅特罗波利算法" class="headerlink" title="基于马尔可夫链的梅特罗波利算法"></a>基于马尔可夫链的梅特罗波利算法</h3><p>此方法是对于随机变量维度高或是概率分布不完全已知的概率分布时使用的方法。</p>
+<p>详见另一篇博客专门讲解，<a href="">《梅特罗波利算法》</a>。</p>
+<h2 id="方差缩减"><a href="#方差缩减" class="headerlink" title="方差缩减"></a>方差缩减</h2>
     </div>
 
     
@@ -244,6 +284,15 @@
       
 
       <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/数学/" rel="tag"># 数学</a>
+            
+          </div>
+        
 
         
 
@@ -259,6 +308,10 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/12/03/梅特罗波利算法/" rel="prev" title="梅特罗波利算法">
+                  梅特罗波利算法 <i class="fa fa-chevron-right"></i>
+                </a>
               
             </div>
           </div>
@@ -304,6 +357,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概率论基础"><span class="nav-number">1.</span> <span class="nav-text">概率论基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#概率密度函数与累计分布函数"><span class="nav-number">1.1.</span> <span class="nav-text">概率密度函数与累计分布函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期望与方差"><span class="nav-number">1.2.</span> <span class="nav-text">期望与方差</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#离散形式"><span class="nav-number">1.2.1.</span> <span class="nav-text">离散形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连续形式"><span class="nav-number">1.2.2.</span> <span class="nav-text">连续形式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#大数定律"><span class="nav-number">1.3.</span> <span class="nav-text">大数定律</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#蒙特卡洛方法"><span class="nav-number">2.</span> <span class="nav-text">蒙特卡洛方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽样方法"><span class="nav-number">2.1.</span> <span class="nav-text">抽样方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#逆变换算法"><span class="nav-number">2.1.1.</span> <span class="nav-text">逆变换算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#取舍算法"><span class="nav-number">2.1.2.</span> <span class="nav-text">取舍算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于马尔可夫链的梅特罗波利算法"><span class="nav-number">2.1.3.</span> <span class="nav-text">基于马尔可夫链的梅特罗波利算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方差缩减"><span class="nav-number">2.2.</span> <span class="nav-text">方差缩减</span></a></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
@@ -318,7 +373,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -327,7 +382,7 @@
       
       <div class="site-state-item site-state-tags">
         
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span>
         
       </div>
