@@ -63,7 +63,7 @@
 <meta property="og:site_name" content="十木杂物间">
 <meta property="og:description" content="《全局光照技术》中的蒙特卡洛方法总结">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-03T09:14:34.188Z">
+<meta property="og:updated_time" content="2019-12-04T03:20:37.036Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="蒙特卡洛方法">
 <meta name="twitter:description" content="《全局光照技术》中的蒙特卡洛方法总结">
@@ -223,11 +223,19 @@
                 
               
 
-              <time title="创建时间：2019-12-03 10:11:24 / 修改时间：17:14:34" itemprop="dateCreated datePublished" datetime="2019-12-03T10:11:24+08:00">2019-12-03</time>
+              <time title="创建时间：2019-12-03 10:11:24" itemprop="dateCreated datePublished" datetime="2019-12-03T10:11:24+08:00">2019-12-03</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-04 11:20:37" itemprop="dateModified" datetime="2019-12-04T11:20:37+08:00">2019-12-04</time>
+              </span>
             
           
 
@@ -245,21 +253,39 @@
         <p>《全局光照技术》中的蒙特卡洛方法总结</p>
 <a id="more"></a>
 <h1 id="概率论基础"><a href="#概率论基础" class="headerlink" title="概率论基础"></a>概率论基础</h1><h2 id="概率密度函数与累计分布函数"><a href="#概率密度函数与累计分布函数" class="headerlink" title="概率密度函数与累计分布函数"></a>概率密度函数与累计分布函数</h2><p>随机变量$X$每个$x$值关联一个概率，概率密度函数表示随机变量所有可能值组成的概率分布函数$p(x)$。</p>
-<p>累计分布函数定义为所有随机变量值中小于或等于$y$的随机变量概率的积分:<br>$$<br>P(y)=\int^y_{-\infty}p(x)dx<br>$$</p>
-<h2 id="期望与方差"><a href="#期望与方差" class="headerlink" title="期望与方差"></a>期望与方差</h2><h3 id="离散形式"><a href="#离散形式" class="headerlink" title="离散形式"></a>离散形式</h3><p>$$<br>E[X]=\sum^n_{i=1}p_ix_i<br>$$</p>
-<p>$$<br>\sigma^2=\sum_i(x_i-E[x])^2p_i<br>$$</p>
-<h3 id="连续形式"><a href="#连续形式" class="headerlink" title="连续形式"></a>连续形式</h3><p>$$<br>E[X]=\int^\infty_{-\infty}xp(x)dx<br>$$</p>
-<p>$$<br>\sigma^2=\int(x-E[X])^2p(x)dx<br>$$</p>
-<h2 id="大数定律"><a href="#大数定律" class="headerlink" title="大数定律"></a>大数定律</h2><p>当独立同分布的随机变量抽样和除以抽样数时，可得到对该随机变量期望的一个估计:<br>$$<br>E[x]\approx\bar{X}=\frac{1}{N}\sum^N_{i=1}x_i<br>$$<br>当$N\to\infty$时，随机变量统计平均值接近期望：<br>$$<br>P{E[X]=\lim_{N\to\infty}\frac{1}{N}\sum^N_{i=1}x_i}=1<br>$$</p>
-<h1 id="蒙特卡洛方法"><a href="#蒙特卡洛方法" class="headerlink" title="蒙特卡洛方法"></a>蒙特卡洛方法</h1><p>在渲染方程中的被积函数往往比较复杂，不能简单求出数值解。蒙特卡洛积分的目的是对积分进行近似计算。</p>
-<p>由大数定律可知:<br>$$<br>E[f(x)]=\int_{x\in S}f(x)p(x)d\mu\approx\frac{1}{N}\sum^N_{i=1}f(x_i)<br>$$<br>令$g(x)=f(x)p(x)$，上述期望近似变为积分$I$的估值$I_N$:<br>$$<br>\int_{x\in S}g(x)d\mu\approx\frac{1}{N}\sum^N_{i=1}\frac{g(x_i)}{p(x_i)}<br>$$<br>该估值的期望为:<br>$$<br>E[I_N]=E[\frac{1}{N}\sum^N_{i=1}\frac{g(x_i)}{p(x_i)}]\<br>=\frac{1}{N}\sum^N_{i=1}E[\frac{g(x_i)}{p(x_i)}]\<br>\frac{1}{N}N\int\frac{g(x)}{p(x)}p(x)dx\<br>=\int g(x)dx\<br>=I<br>$$<br>由此可得该估计可以用作$I$的近似，该估计的方差为<br>$$<br>\sigma^2=\frac{1}{N}\int(\frac{g(x)}{p(x)}-I)^2p(x)dx<br>$$<br>可见方差随N的增加线性降低，又由于误差与标准差成正比，因此误差随着$\sqrt{N}$线性降低。理论上蒙特卡洛方法没有对$p(x)$进行要求，但由上式可知$p(x)$分布越接近$g(x)$误差会更小。</p>
+<p>累计分布函数定义为所有随机变量值中小于或等于$y$的随机变量概率的积分:</p>
+<script type="math/tex; mode=display">
+P(y)=\int^y_{-\infty}p(x)dx</script><h2 id="期望与方差"><a href="#期望与方差" class="headerlink" title="期望与方差"></a>期望与方差</h2><h3 id="离散形式"><a href="#离散形式" class="headerlink" title="离散形式"></a>离散形式</h3><script type="math/tex; mode=display">
+E[X]=\sum^n_{i=1}p_ix_i</script><script type="math/tex; mode=display">
+\sigma^2=\sum_i(x_i-E[x])^2p_i</script><h3 id="连续形式"><a href="#连续形式" class="headerlink" title="连续形式"></a>连续形式</h3><script type="math/tex; mode=display">
+E[X]=\int^\infty_{-\infty}xp(x)dx</script><script type="math/tex; mode=display">
+\sigma^2=\int(x-E[X])^2p(x)dx</script><h2 id="大数定律"><a href="#大数定律" class="headerlink" title="大数定律"></a>大数定律</h2><p>当独立同分布的随机变量抽样和除以抽样数时，可得到对该随机变量期望的一个估计:</p>
+<script type="math/tex; mode=display">
+E[x]\approx\bar{X}=\frac{1}{N}\sum^N_{i=1}x_i</script><p>当$N\to\infty$时，随机变量统计平均值接近期望：</p>
+<script type="math/tex; mode=display">
+P\{E[X]=\lim_{N\to\infty}\frac{1}{N}\sum^N_{i=1}x_i\}=1</script><h1 id="蒙特卡洛方法"><a href="#蒙特卡洛方法" class="headerlink" title="蒙特卡洛方法"></a>蒙特卡洛方法</h1><p>在渲染方程中的被积函数往往比较复杂，不能简单求出数值解。蒙特卡洛积分的目的是对积分进行近似计算。</p>
+<p>由大数定律可知:</p>
+<script type="math/tex; mode=display">
+E[f(x)]=\int_{x\in S}f(x)p(x)d\mu\approx\frac{1}{N}\sum^N_{i=1}f(x_i)</script><p>令$g(x)=f(x)p(x)$，上述期望近似变为积分$I$的估值$I_N$:</p>
+<script type="math/tex; mode=display">
+\int_{x\in S}g(x)d\mu\approx\frac{1}{N}\sum^N_{i=1}\frac{g(x_i)}{p(x_i)}</script><p>该估值的期望为:</p>
+<script type="math/tex; mode=display">
+E[I_N]=E[\frac{1}{N}\sum^N_{i=1}\frac{g(x_i)}{p(x_i)}]\\
+=\frac{1}{N}\sum^N_{i=1}E[\frac{g(x_i)}{p(x_i)}]\\
+\frac{1}{N}N\int\frac{g(x)}{p(x)}p(x)dx\\
+=\int g(x)dx\\
+=I</script><p>由此可得该估计可以用作$I$的近似，该估计的方差为</p>
+<script type="math/tex; mode=display">
+\sigma^2=\frac{1}{N}\int(\frac{g(x)}{p(x)}-I)^2p(x)dx</script><p>可见方差随N的增加线性降低，又由于误差与标准差成正比，因此误差随着$\sqrt{N}$线性降低。理论上蒙特卡洛方法没有对$p(x)$进行要求，但由上式可知$p(x)$分布越接近$g(x)$误差会更小。</p>
 <p>综上，蒙特卡洛方法归纳为以下步骤：</p>
 <ul>
 <li>对满足某一概率分布的随机数进行抽样</li>
 <li>使用抽样值计算$\frac{g(x_i)}{p(x_i)}$，称为样本贡献值</li>
 <li>对所有的抽样结果求平均值得到积分的估计</li>
 </ul>
-<h2 id="抽样方法"><a href="#抽样方法" class="headerlink" title="抽样方法"></a>抽样方法</h2><p>抽样过程可以描述为从$p(x)$对应的随机变量$X$中产生一系列随机数$X_1,X_2,…$使得对于任意$\Omega$属于定义空间$\Omega_0$满足:<br>$$<br>P{X_k\in\Omega}=\int_\Omega p(x)dx \le1<br>$$<br>实际上不能直接从$p(x)$进行抽样，计算机进行抽样过程时首先求取某些基础随机数序列。通常使用均匀分布的随机数，由这个序列作为抽样所需的基础随机数对于概率分布函数确定的随机变量，有逆变换算法和取舍算法。</p>
+<h2 id="抽样方法"><a href="#抽样方法" class="headerlink" title="抽样方法"></a>抽样方法</h2><p>抽样过程可以描述为从$p(x)$对应的随机变量$X$中产生一系列随机数$X_1,X_2,…$使得对于任意$\Omega$属于定义空间$\Omega_0$满足:</p>
+<script type="math/tex; mode=display">
+P\{X_k\in\Omega\}=\int_\Omega p(x)dx \le1</script><p>实际上不能直接从$p(x)$进行抽样，计算机进行抽样过程时首先求取某些基础随机数序列。通常使用均匀分布的随机数，由这个序列作为抽样所需的基础随机数对于概率分布函数确定的随机变量，有逆变换算法和取舍算法。</p>
 <h3 id="逆变换算法"><a href="#逆变换算法" class="headerlink" title="逆变换算法"></a>逆变换算法</h3><p>算法步骤：</p>
 <ol>
 <li>首先计算$p(x)$的累计分布函数：$P(x)=\int^x_0p(x’)dx’$</li>
@@ -275,14 +301,22 @@
 <li>如果$Y\le f(X)$则接受，接受的随机数为$Z=X$，否则拒绝返回第一步。</li>
 </ol>
 <h3 id="基于马尔可夫链的梅特罗波利算法"><a href="#基于马尔可夫链的梅特罗波利算法" class="headerlink" title="基于马尔可夫链的梅特罗波利算法"></a>基于马尔可夫链的梅特罗波利算法</h3><p>此方法是对于随机变量维度高或是概率分布不完全已知的概率分布时使用的方法。</p>
-<p>详见另一篇博客专门讲解，<a href="https://tenwoods.github.io/2019/12/03/梅特罗波利算法/" target="_blank" rel="noopener">《梅特罗波利算法》</a>。</p>
+<p>详见另一篇博客专门讲解，<a href="https://tenwoods.github.io/2019/12/03/梅特罗波利斯算法/" target="_blank" rel="noopener">《梅特罗波利斯算法》</a>。</p>
 <h2 id="方差缩减"><a href="#方差缩减" class="headerlink" title="方差缩减"></a>方差缩减</h2><p>以下为图形学中常用的方差缩减方法。</p>
-<h3 id="复合重要性抽样"><a href="#复合重要性抽样" class="headerlink" title="复合重要性抽样"></a>复合重要性抽样</h3><p>复合重要性抽样是从多个不同的分布中抽样，然后对这些不同的抽样结果进行加权组合。其估计表达式为:<br>$$<br>I_N=\sum^n_{i=1}\frac{1}{n_j}\sum^{n_i}_{j=1}\omega_i(X_{x,j})\frac{X_{i,j}}{p_i(X_{i,j})}<br>$$<br>它将整个空间按一定的形式划分，然后对每个划分的区域使用不同的抽样技术$\sum^n_{i=1}$就是不同抽样技术的和；$\sum^{n_i}_{j=1}$是每种抽样技术在所对应空间中对$I_N$的估计，每种技术只贡献部分值故乘上加权系数$\omega_i(X_{x,j})$；$\omega_i(x)$满足$\sum^n_{i=1}\omega_i(x)=1$。</p>
-<p>一种加权系数函数–平衡启发式:<br>$$<br>\hat{\omega_i}=\frac{c_ip_i(x)}{\sum_jc_jp_j(x)}<br>$$<br>其中$c_i$是每个抽样分布$p_i$对应的抽样数量比例，$c_i=\frac{n_i}{N}$。</p>
-<p>这种加权系数函数对应的积分估计为:<br>$$<br>I_N=\frac{1}{N}\sum^n_{i=1}\sum^{n_j}<em>{j=1}\frac{f(X</em>{i,j})}{\bar{P}(X_{i,j})}\<br>\bar{P}(x)=\sum^n_{i=1}c_ip_i(x)<br>$$</p>
-<h3 id="分层抽样"><a href="#分层抽样" class="headerlink" title="分层抽样"></a>分层抽样</h3><p>分层抽样将被积函数定义域$\Omega$划分为多个彼此不相交的子定义域$\Omega_1,\Omega_2,…$，满足$\bigcup^n_{i=1}\Omega_i=\Omega$。每个阶层内运用不同的抽样分布进行抽样，每个阶层的蒙特卡洛估计为:</p>
-<p>$$<br>F_i=\frac{1}{n_i}\sum^{n_i}<em>{j=1}\frac{f(X</em>{i,j})}{p_i(X_{i,j})}<br>$$</p>
-<p>因此，整个被积函数的估计为:<br>$$<br>I_N=\sum^n_{i=1}v_iF_i<br>$$<br>其中$i$为每个阶层占整个定义域空间的体积比例。</p>
+<h3 id="复合重要性抽样"><a href="#复合重要性抽样" class="headerlink" title="复合重要性抽样"></a>复合重要性抽样</h3><p>复合重要性抽样是从多个不同的分布中抽样，然后对这些不同的抽样结果进行加权组合。其估计表达式为:</p>
+<script type="math/tex; mode=display">
+I_N=\sum^n_{i=1}\frac{1}{n_j}\sum^{n_i}_{j=1}\omega_i(X_{x,j})\frac{X_{i,j}}{p_i(X_{i,j})}</script><p>它将整个空间按一定的形式划分，然后对每个划分的区域使用不同的抽样技术$\sum^n_{i=1}$就是不同抽样技术的和；$\sum^{n_i}_{j=1}$是每种抽样技术在所对应空间中对$I_N$的估计，每种技术只贡献部分值故乘上加权系数$\omega_i(X_{x,j})$；$\omega_i(x)$满足$\sum^n_{i=1}\omega_i(x)=1$。</p>
+<p>一种加权系数函数—平衡启发式:</p>
+<script type="math/tex; mode=display">
+\hat{\omega_i}=\frac{c_ip_i(x)}{\sum_jc_jp_j(x)}</script><p>其中$c_i$是每个抽样分布$p_i$对应的抽样数量比例，$c_i=\frac{n_i}{N}$。</p>
+<p>这种加权系数函数对应的积分估计为:</p>
+<script type="math/tex; mode=display">
+I_N=\frac{1}{N}\sum^n_{i=1}\sum^{n_j}_{j=1}\frac{f(X_{i,j})}{\bar{P}(X_{i,j})}\\
+\bar{P}(x)=\sum^n_{i=1}c_ip_i(x)</script><h3 id="分层抽样"><a href="#分层抽样" class="headerlink" title="分层抽样"></a>分层抽样</h3><p>分层抽样将被积函数定义域$\Omega$划分为多个彼此不相交的子定义域$\Omega_1,\Omega_2,…$，满足$\bigcup^n_{i=1}\Omega_i=\Omega$。每个阶层内运用不同的抽样分布进行抽样，每个阶层的蒙特卡洛估计为:</p>
+<script type="math/tex; mode=display">
+F_i=\frac{1}{n_i}\sum^{n_i}_{j=1}\frac{f(X_{i,j})}{p_i(X_{i,j})}</script><p>因此，整个被积函数的估计为:</p>
+<script type="math/tex; mode=display">
+I_N=\sum^n_{i=1}v_iF_i</script><p>其中$i$为每个阶层占整个定义域空间的体积比例。</p>
 
     </div>
 
@@ -318,7 +352,7 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/12/03/梅特罗波利算法/" rel="prev" title="梅特罗波利算法">
+                <a href="/2019/12/03/梅特罗波利斯算法/" rel="prev" title="梅特罗波利算法">
                   梅特罗波利算法 <i class="fa fa-chevron-right"></i>
                 </a>
               
